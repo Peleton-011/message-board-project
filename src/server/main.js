@@ -22,9 +22,9 @@ app.use(cors());
 // 	res.send("API is working properly");
 // });
 
-app.get("/:page?", (req, res) => {
-	console.log(req.params.page);
-	res.send("API is working properly");
+app.get("/", (req, res) => {
+    //"/:page?"
+    res.send("API is working properly");
 	// res.sendFile(
 	// 	!req.params.page
 	// 		? __dirname + "/pages/index.html"
