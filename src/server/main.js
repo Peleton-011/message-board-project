@@ -1,10 +1,12 @@
 const express = require("express");
 const ViteExpress = require("vite-express");
-const { v4 : uuid } =require("uuid");
+const { v4: uuid } = require("uuid");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 const cors = require("cors");
+const port = 9000;
 
 const msgList = [
 	{
@@ -21,18 +23,14 @@ const msgList = [
 	},
 ];
 
-app.get("/hello", (req, res) => {
-	res.send("Hello Vite + React!");
-});
-
-ViteExpress.listen(app, 9000, () =>
-	console.log("Server is listening on port 9000...")
-);
-
 // serve your css as static
 app.use(express.static(__dirname + "/styles/"));
 
+//Use cors to allow cross origin resource sharing
 app.use(cors());
+
+app.use(bodyParser.json());
+
 
 // app.get("/", function (req, res, next) {
 // 	res.send("API is working properly");
@@ -50,12 +48,18 @@ app.get("/", (req, res) => {
 	// );
 });
 
-app.get("/new", (req, res) => {
+app.post("/", (req, res) => {
+	const data = req.body;
 	//Get form data
 	msgList.push({
-		text: req.query.text,
-		user: req.query.user,
+		text: data.text,
+		user: data.user,
 		added: new Date(),
 		id: uuid(),
 	});
+	res.send("Data recieved successfully");
 });
+
+ViteExpress.listen(app, port, () =>
+	console.log("Server is listening on port " + port + "...")
+);

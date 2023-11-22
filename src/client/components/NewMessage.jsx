@@ -1,14 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const NewMessage = () => {
-  return (
-    <form  action="http://localhost:9000/new" method="POST">
-        <input type="text" name="text" />
-        <input type="text" name="user" />
-        <input type="submit" />
-    </form>
+const NewMessage = ({onSubmit}) => {
+	return (
+		<form onSubmit={onSubmit}>
+			<input id="name" type="text" name="text" />
+			<input id="message" type="text" name="user" />
+			<input type="submit" />
+		</form>
+	);
+};
 
-  )
-}
-
-export default NewMessage
+export default NewMessage;
