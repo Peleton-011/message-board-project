@@ -11,7 +11,7 @@ import Chatlog from "./components/Chatlog";
 import NewMessage from "./components/NewMessage";
 
 function App() {
-	const [msgList, setMsgList] = useState(0);
+	const [msgList, setMsgList] = useState([]);
 	useEffect(callAPI, []);
 
 	const router = createBrowserRouter([
@@ -37,8 +37,10 @@ function App() {
 
 	function callAPI() {
 		fetch("http://localhost:9000")
-			.then((res) => res.text())
-			.then((res) => setMsgList(res));
+			// .then((res) => res.text())
+            .then((res => res.json()))
+			.then((res) => setMsgList(res.data))
+            .then((res) => console.log(msgList));
 	}
 
 	return (
