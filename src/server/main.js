@@ -1,5 +1,6 @@
 const express = require("express");
 const ViteExpress = require("vite-express");
+import { v4 as uuid } from "uuid";
 
 const app = express();
 
@@ -39,7 +40,7 @@ app.use(cors());
 
 app.get("/", (req, res) => {
 	//"/:page?"
-	res.send({data: msgList});
+	res.send({ data: msgList });
 	// res.sendFile(
 	// 	!req.params.page
 	// 		? __dirname + "/pages/index.html"
@@ -47,4 +48,14 @@ app.get("/", (req, res) => {
 	// 		? __dirname + "/pages/" + req.params.page + ".html"
 	// 		: __dirname + "/pages/404.html"
 	// );
+});
+
+app.get("/new", (req, res) => {
+	//Get form data
+	msgList.push({
+		text: req.query.text,
+		user: req.query.user,
+		added: new Date(),
+		id: uuid(),
+	});
 });
