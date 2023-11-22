@@ -1,6 +1,6 @@
 const express = require("express");
 const ViteExpress = require("vite-express");
-import { v4 as uuid } from "uuid";
+const { v4 : uuid } =require("uuid");
 
 const app = express();
 

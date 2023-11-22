@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
 	createBrowserRouter,
 	RouterProvider,
@@ -11,8 +11,29 @@ import Chatlog from "./components/Chatlog";
 import NewMessage from "./components/NewMessage";
 
 function App() {
+	function useInterval(callback, delay) {
+		const savedCallback = useRef();
+
+		// Remember the latest callback.
+		useEffect(() => {
+			savedCallback.current = callback;
+		}, [callback]);
+
+		// Set up the interval.
+		useEffect(() => {
+			function tick() {
+				savedCallback.current();
+			}
+			if (delay !== null) {
+				let id = setInterval(tick, delay);
+				return () => clearInterval(id);
+			}
+		}, [delay]);
+	}
+
 	const [msgList, setMsgList] = useState([]);
-	useEffect(callAPI, []);
+    useEffect(callAPI, []);
+    useInterval(callAPI, 5000);
 
 	const router = createBrowserRouter([
 		{
@@ -38,9 +59,9 @@ function App() {
 	function callAPI() {
 		fetch("http://localhost:9000")
 			// .then((res) => res.text())
-            .then((res => res.json()))
+			.then((res) => res.json())
 			.then((res) => setMsgList(res.data))
-            .then((res) => console.log(msgList));
+			.then((res) => console.log(msgList));
 	}
 
 	return (
