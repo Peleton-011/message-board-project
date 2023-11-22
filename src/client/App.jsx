@@ -7,8 +7,11 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
+import Chatlog from "./components/Chatlog";
+import NewMessage from "./components/NewMessage";
+
 function App() {
-	const [apiResponse, setApiResponse] = useState(0);
+	const [msgList, setMsgList] = useState(0);
 	useEffect(callAPI, []);
 
 	const router = createBrowserRouter([
@@ -16,26 +19,30 @@ function App() {
 			path: "/",
 			element: (
 				<div>
-					<h1>Hello World</h1>
+					<Chatlog msgList={msgList} />
 					<Link to="new">New</Link>
 				</div>
 			),
 		},
 		{
 			path: "new",
-			element: <div><h2>New!</h2> {apiResponse}</div>,
+			element: (
+				<div>
+					<NewMessage />
+					<Link to="/">Back</Link>
+				</div>
+			),
 		},
 	]);
 
 	function callAPI() {
 		fetch("http://localhost:9000")
 			.then((res) => res.text())
-			.then((res) => setApiResponse(res));
+			.then((res) => setMsgList(res));
 	}
 
 	return (
 		<div className="App">
-			{apiResponse}
 			<RouterProvider router={router} />
 		</div>
 	);

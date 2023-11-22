@@ -5,6 +5,20 @@ const app = express();
 
 const cors = require("cors");
 
+const msgList = [
+    {
+      text: "Hi there!",
+      user: "Amando",
+      added: new Date()
+    },
+    {
+      text: "Hello World!",
+      user: "Charles",
+      added: new Date()
+    }
+ ];
+ 
+
 app.get("/hello", (req, res) => {
 	res.send("Hello Vite + React!");
 });
@@ -24,7 +38,7 @@ app.use(cors());
 
 app.get("/", (req, res) => {
     //"/:page?"
-    res.send("API is working properly");
+    res.send(msgList);
 	// res.sendFile(
 	// 	!req.params.page
 	// 		? __dirname + "/pages/index.html"
